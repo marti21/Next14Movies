@@ -5,12 +5,15 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import HomeIcon from '@mui/icons-material/Home';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { montserrat } from '../fonts';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 
 export const Section = () => {
   const [open, setOpen] = useState(true);
 
   const containerVariants = {
-    open: { width: 200 },
+    open: { width: 250 },
     closed: { width: 80 },
   };
 
@@ -25,30 +28,48 @@ export const Section = () => {
 
   return (
     <motion.section
-      className={`pl-4 py-16 h-[calc(100vh-100px)] bg-yellow-200 flex flex-col gap-16`}
+      className={`py-4 h-[calc(100vh-100px)] bg-[#fc7f03] flex flex-col gap-16 ${montserrat.className}`}
       variants={containerVariants}
       initial={open ? 'open' : 'closed'}
       animate={open ? 'open' : 'closed'}
       transition={containerTransition}
     >
-      <div className=''>
-        <button className='flex border-solid rounded-full border-black border w-fit flex justify-content items-center bg-yellow-200' onClick={() => changeWidth()}><ArrowForwardIcon /></button>
-      </div>
-
+      
+        <div className='pl-2'>
+          <button className='flex border-solid rounded-full border-black border w-fit flex justify-content items-center bg-orange-300' onClick={() => changeWidth()}>
+            {
+              open ?  <ArrowBackIcon /> :  <ArrowForwardIcon />
+            }
+            </button>
+        </div>
+      
       { 
       open ? (
-        <div className='flex flex-col gap-4 justify-start items-start'>
-          <Link href='/dashboard'>Dashboard</Link>
-          <Link href='/dashboard/latest'>Latest</Link>
-          <Link href='/dashboard/incoming'>Incoming</Link>
-          <Link href='/best'>Best Rated</Link>
+        <div className='pl-2 flex flex-col gap-4 justify-start items-start'>
+            <Link href='/dashboard' className='text-white w-full bg-red-500 h-[40px] flex justify-center items-center hover:bg-black border-solid rounded-l-lg'>          
+                Dashboard
+            </Link>
+            <Link href='/dashboard/latest' className='text-white w-full bg-red-500 h-[40px] flex justify-center items-center hover:bg-black border-solid rounded-l-lg'>          
+              Latest
+            </Link>
+            <Link href='/dashboard/incoming' className='text-white w-full bg-red-500 h-[40px] flex justify-center items-center hover:bg-black border-solid rounded-l-lg'>          
+              Incoming
+            </Link>
+            <Link href='/best' className='text-white w-full bg-red-500 h-[40px] flex justify-center items-center hover:bg-black border-solid rounded-l-lg'>          
+              Best Rated
+            </Link>
         </div>
         ):
-        <div className='flex flex-col gap-4 justify-start items-start'>
-          <Link href='/dashboard' className='border-solid border-black rounded-md p-2 border-2 w-fit'><HomeIcon /></Link>
+        <div className='py-4 flex flex-col gap-4 items-center'>
+          <Link href='/dashboard' className='border-solid border-black rounded-md p-2 border-2 w-fit'><HomeOutlinedIcon /></Link>
+            <div className='border-b w-full border-grey-500' />
           <Link href='/dashboard/latest' className='border-solid border-black rounded-md p-2 border-2 w-fit'><HomeIcon /></Link>
+            <div className='border-b w-full border-grey-500' />
           <Link href='/dashboard/incoming' className='border-solid border-black rounded-md p-2 border-2 w-fit'><HomeIcon /></Link>
+            <div className='border-b w-full border-grey-500' />
           <Link href='/best' className='border-solid border-black rounded-md p-2 border-2 w-fit'><HomeIcon /></Link>
+            <div className='border-b w-full border-grey-500'/>
+
         </div>
       }
       

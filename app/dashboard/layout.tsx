@@ -15,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <div className={`min-h-screen flex flex-col ${inter.className}`}>
-      <header className='h-[100px] min-w-screen bg-blue-200'>
+      <header className='h-[100px] min-w-screen bg-[#ffab03]'>
       </header>
 
       <div className='flex flex-row'>
