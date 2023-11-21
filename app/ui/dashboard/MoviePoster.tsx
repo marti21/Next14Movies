@@ -41,17 +41,15 @@ export const MoviePoster= ({moviesPosters, moviesData}) => {
     const position = {
         closed: {
             height: 'auto',
-            paddingTop: '70px'
         },
         open: {
             height: '100%',
-            paddingBottom: '60px'
         }
     }
 
     const containerTransition = {
-        duration: 0.6,
-        ease: 'easeOut',
+        duration: 0.4,
+        ease: 'easeInOut',
     }
 
     const panelInfo = {
@@ -59,26 +57,26 @@ export const MoviePoster= ({moviesPosters, moviesData}) => {
           transform: 'translateX(0)'
         },
         closed: {
-          transform: 'translateX(120%)'
+          transform: 'translateX(140%)'
         }
     }
       
     const containerTransition2 = {
-        duration: 0.5,
-        ease: 'easeInOut',
+        duration: 0.4,
+        ease: 'easeOut',
     }
 
     const imageMovieInfo = {
         open: {
-          transform: 'scale(1)'
+          transform: 'scale(1.0)'
         },
         closed: {
-          transform: 'scale(0)'
+          transform: 'scale(0.0)'
         }
     }
       
     const containerTransition3 = {
-        duration: 0.5,
+        duration: 0.3,
         ease: 'easeInOut',
     }
     
@@ -104,54 +102,54 @@ export const MoviePoster= ({moviesPosters, moviesData}) => {
             setVoteAverage(movieInfo[0].vote_average);
             setPosterPath(movieInfo[0].poster_path);
             SetActivated(false);
-
-            setTimeout(() => {
-                setCanAppear(true)
-            }, 600);
         } 
 
         console.log(typeof movieInfo);
       }, [movieInfo]);
 
     return(
-        <div className="w-full overflow-y-auto overflow-x-hidden h-[calc(100vh-180px)] flex flex-col">
+        <div className="w-full overflow-y-auto overflow-x-hidden h-[calc(100vh-180px)] flex flex-col pt-32">
             <motion.div className='flex flex-row gap-12 flex-wrap justify-center items-end'
                 variants={position}
-                initial={activated ? 'open' : 'closed'}
+                initial={'open'}
                 animate={activated ? 'open' : 'closed'}
-                transition={containerTransition}
+                transition={{ ...containerTransition, onComplete: () => activated === false && setCanAppear(true) }}
             >
                 {moviesPosters && moviesPosters.map((movie:any, index:any) => (
-                    <Image key={index} src={`https://image.tmdb.org/t/p/original/${movie}`} onClick={() => checkMovie(index)} alt="movie Image" className="rounded-md cursor-pointer hover:scale-[103%] ease-out duration-300" width={230} height={200} />
+                    <Image key={index} src={`https://image.tmdb.org/t/p/original/${movie}`} onClick={() => checkMovie(index)} alt="movie Image" className="rounded-md cursor-pointer hover:scale-[103%] ease-out duration-300" width={220} height={200} />
                 ))}
             </motion.div>
             
-            <div className='flex justify-center items-center w-full h-[500px]'> 
-                <motion.div className={`flex flex-row gap-12 ${montserrat.className} w-10/12 justify-center items-center`}
-                    variants={panelInfo}
-                    initial={canAppear ? 'open' : 'closed'}
-                    animate={canAppear ? 'open' : 'closed'}
-                    transition={containerTransition2}
-                    onAnimationComplete={() => setTimeout(() => SetImageMovieInfoCanAppear(true), 700)}
-                >
+            <div className='flex justify-center items-center w-full h-[500px]'>
+                { !activated && <div className='h-full flex flex-row w-4/5'>
                     <motion.div
                         variants={imageMovieInfo}
-                        initial={imageMovieInfoCanAppear ? 'open' : 'closed'}
+                        initial={'closed'}
                         animate={imageMovieInfoCanAppear ? 'open' : 'closed'}
                         transition={containerTransition3}
+                        className='w-3/12 h-full flex justify-center items-center'
                     >
-                        <Image src={`https://image.tmdb.org/t/p/original/${posterPath}`} alt="movie Image" className="rounded-md" width={400} height={400}/>
+                        <Image src={`https://image.tmdb.org/t/p/original/${posterPath}`} alt="movie Image" className="rounded-md" width={250} height={250}/>
+                    
                     </motion.div>
-                    <div>
+
+                    <motion.div className={`w-9/12 flex h-full flex-col gap-2 justify-center items-start ${montserrat.className}`}
+                        variants={panelInfo}
+                        initial={'closed'}
+                        animate={canAppear ? 'open' : 'closed'}
+                        transition={{...containerTransition2, onComplete: () => canAppear && SetImageMovieInfoCanAppear(true)}}
+                    >
                         <p>hola: {movieTitle}</p>
                         <p>hola: {adult}</p>
                         <p>hola: {description}</p>
                         <p>hola: {popularity}</p>
                         <p>Realase Date: {releaseDate}</p>
                         <p>hola: {voteAverage}</p>
-                    </div>
-                </motion.div>
+                    </motion.div>   
+                </div>
+                }
             </div>
+            
         </div>
     )
 }

@@ -41,7 +41,7 @@ export async function fetchNowPlayingMovies() {
 
         const data = await response.json()
         const posters = getPosterImagesFromMovies(data)
-        console.log("holaaaaaaa")
+
         return [posters, data];
     }
     catch{
