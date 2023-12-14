@@ -5,7 +5,10 @@ import { montserrat } from '../fonts';
 import Image from 'next/image';
 import { easeIn, motion } from 'framer-motion';
 
+import { useTranslation } from 'next-i18next';
+
 export const MoviePoster= ({moviesPosters, moviesData}) => {
+    const { t } = useTranslation('common');
 
     interface MovieData {
         adult: boolean;
@@ -43,7 +46,7 @@ export const MoviePoster= ({moviesPosters, moviesData}) => {
             height: 'auto',
         },
         open: {
-            height: '100%',
+            height: '50%',
         }
     }
 
@@ -102,13 +105,18 @@ export const MoviePoster= ({moviesPosters, moviesData}) => {
             setVoteAverage(movieInfo[0].vote_average);
             setPosterPath(movieInfo[0].poster_path);
             SetActivated(false);
-        } 
+        }
 
         console.log(typeof movieInfo);
-      }, [movieInfo]);
+    }, [movieInfo]);
+
+    function closeMovieData(){
+        SetActivated(true);
+        SetImageMovieInfoCanAppear(false)
+    }
 
     return(
-        <div className="w-full overflow-y-auto overflow-x-hidden h-[calc(100vh-180px)] flex flex-col pt-32">
+        <div className="w-full overflow-y-auto overflow-x-hidden h-[calc(100vh-180px)] flex flex-col pt-32 gap-12">
             <motion.div className='flex flex-row gap-12 flex-wrap justify-center items-end'
                 variants={position}
                 initial={'open'}
@@ -120,8 +128,8 @@ export const MoviePoster= ({moviesPosters, moviesData}) => {
                 ))}
             </motion.div>
             
-            <div className='flex justify-center items-center w-full h-[500px]'>
-                { !activated && <div className='h-full flex flex-row w-4/5'>
+            <div className='flex justify-center items-center w-full'>
+                { !activated && <div className='h-full flex flex-row w-4/5 pt-14'>
                     <motion.div
                         variants={imageMovieInfo}
                         initial={'closed'}
@@ -133,19 +141,20 @@ export const MoviePoster= ({moviesPosters, moviesData}) => {
                     
                     </motion.div>
 
-                    <motion.div className={`w-9/12 flex h-full flex-col gap-2 justify-center items-start ${montserrat.className}`}
+                    <motion.div className={`relative w-9/12 flex h-full flex-col gap-2 justify-center items-start ${montserrat.className}`}
                         variants={panelInfo}
                         initial={'closed'}
                         animate={canAppear ? 'open' : 'closed'}
                         transition={{...containerTransition2, onComplete: () => canAppear && SetImageMovieInfoCanAppear(true)}}
                     >
-                        <p>hola: {movieTitle}</p>
-                        <p>hola: {adult}</p>
-                        <p>hola: {description}</p>
-                        <p>hola: {popularity}</p>
+                        <p>{t('home')} {movieTitle}</p>
+                        <p>Description: {description}</p>
+                        <p>Popularity: {popularity}</p>
                         <p>Realase Date: {releaseDate}</p>
-                        <p>hola: {voteAverage}</p>
-                    </motion.div>   
+                        <p>Vote Average: {voteAverage}</p>
+
+                        <div className='absolute right-0 top-0 cursor-pointer' onClick={() => closeMovieData()}><strong>X</strong></div>
+                    </motion.div>
                 </div>
                 }
             </div>

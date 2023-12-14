@@ -8,8 +8,11 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { montserrat } from '../fonts';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import { useTranslation } from 'react-i18next';
 
 export const Section = () => {
+  const { t } = useTranslation();
+
   const [open, setOpen] = useState(true);
 
   const containerVariants = {
@@ -18,7 +21,7 @@ export const Section = () => {
   };
 
   const containerTransition = {
-    duration: 0.5,
+    duration: 0.2,
     ease: 'easeInOut',
   };
 
@@ -47,10 +50,10 @@ export const Section = () => {
       open ? (
         <div className='pl-2 flex flex-col gap-4 justify-start items-start'>
             <Link href='/dashboard' className='text-white w-full bg-red-500 h-[40px] flex justify-center items-center hover:bg-black border-solid rounded-l-lg'>          
-                Dashboard
+              {t('dashboard')}
             </Link>
             <Link href='/dashboard/latest' className='text-white w-full bg-red-500 h-[40px] flex justify-center items-center hover:bg-black border-solid rounded-l-lg'>          
-              Latest
+              {t('latest')}
             </Link>
             <Link href='/dashboard/incoming' className='text-white w-full bg-red-500 h-[40px] flex justify-center items-center hover:bg-black border-solid rounded-l-lg'>          
               Incoming

@@ -29,11 +29,19 @@ export async function fetchUpcomingMovies(){
   }
 }
 
-export async function fetchNowPlayingMovies() {
-    //await new Promise((resolve) => setTimeout(resolve, 3000))
+export async function fetchNowPlayingMovies(lng:string) {
+    await new Promise((resolve) => setTimeout(resolve, 3000))
+
+    if (typeof lng !== 'string' || lng.trim() === '') {
+      throw new Error('Invalid language parameter');
+    }
 
     try{
-        const response = await fetch('https://api.themoviedb.org/3/movie/now_playing?page=1&language=es-ES', Getoptions)
+        const url = new URL('https://api.themoviedb.org/3/movie/now_playing');
+        url.searchParams.append('page', '1');
+        url.searchParams.append('language', lng);
+
+        const response = await fetch(url.toString(), Getoptions);
 
         if(!response.ok){
           throw new Error(`HTTP error! Status: ${response.status}`)
@@ -44,8 +52,8 @@ export async function fetchNowPlayingMovies() {
 
         return [posters, data];
     }
-    catch{
-
+    catch(error){
+      console.error('Error fetching now playing movies:', error);
     }
 }
 

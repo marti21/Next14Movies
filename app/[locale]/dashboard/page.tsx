@@ -1,7 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { MoviesNow } from '../ui/dashboard/MoviesNow'
+import { MoviesNow } from '../../ui/dashboard/MoviesNow'
 import { Suspense } from 'react'
+import { MoviePosterSkeleton } from '../../ui/dashboard/MoviePosterSkeleton'
 
 export default function Dashboard() {
   return (
@@ -11,8 +12,8 @@ export default function Dashboard() {
           <h1>Dashboard</h1>
           <Link href="/" className='bg-red-200 rounded-md p-1 border-2 border-solid border-blue-200 hover:bg-yellow-200 hover:border-dashed hover:border-red-200'>Home</Link>
       </div>
-
-      <Suspense fallback={<div>Cargando....</div>}>
+      
+      <Suspense fallback={<MoviePosterSkeleton />}>
         <MoviesNow></MoviesNow>
       </Suspense>
       
